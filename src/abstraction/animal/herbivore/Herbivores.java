@@ -2,15 +2,14 @@ package abstraction.animal.herbivore;
 
 import abstraction.animal.Animal;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Herbivores extends Animal implements Runnable {
-    private List<Herbivores> herbivores;
-
+public  class Herbivores extends Animal implements Runnable {
+    private final List<Herbivores> herbivores = new ArrayList<>();;
     public List<Herbivores> getHerbivores() {
-        herbivores = new ArrayList<>();
         herbivores.add(new Rabbit());
         herbivores.add(new Buffalo());
         herbivores.add(new Horse());
@@ -24,8 +23,25 @@ public class Herbivores extends Animal implements Runnable {
         return herbivores;
     }
 
+
+    @Override
+    public void eat() {
+
+    }
+
+    @Override
+    public void move() {
+
+    }
+
+    @Override
+    public void reproduce() {
+
+    }
+
     @Override
     public void run() {
 
     }
+
 }
