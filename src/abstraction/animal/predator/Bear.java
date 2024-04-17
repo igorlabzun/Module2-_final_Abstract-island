@@ -2,7 +2,6 @@ package abstraction.animal.predator;
 
 import abstraction.animal.Animal;
 import abstraction.animal.herbivore.*;
-import abstraction.plant.Plants;
 import islands.Cell;
 import islands.Island;
 
@@ -18,7 +17,7 @@ public class Bear extends Predators {
     private final int maxStepsMove = 2;
     Random random = new Random();
     private final double kilogramsOfFoodForCompleteSaturation = 80d;
-    private final HashMap<Animal,Integer> animalsThatCanBeEaten = new HashMap<>();
+    private final HashMap<Animal, Integer> animalsThatCanBeEaten = new HashMap<>();
     private final int canEatRabbit = 80;
     private final int canEatGoat = 70;
     private final int canEatBoa = 80;
@@ -29,18 +28,30 @@ public class Bear extends Predators {
     private int x;
     private int y;
     private Cell[][] cells;
-    public Bear(){
+
+    public Bear() {
         setPictureOfAnimal(pictureOfAnimal);
         setNameOfAnimal(nameOfAnimal);
         setMaxStepsMove(maxStepsMove);
         setKilogramsOfFoodForCompleteSaturation(kilogramsOfFoodForCompleteSaturation);
         setWeightOfAnimal(weightOfAnimal);
     }
+
+    {
+        animalsThatCanBeEaten.put(new Rabbit(), canEatRabbit);
+        animalsThatCanBeEaten.put(new Goat(), canEatGoat);
+        animalsThatCanBeEaten.put(new Boa(), canEatBoa);
+        animalsThatCanBeEaten.put(new Mouse(), canEatMouse);
+        animalsThatCanBeEaten.put(new Deer(), canEatDeer);
+        animalsThatCanBeEaten.put(new Sheep(), canEatSheep);
+        animalsThatCanBeEaten.put(new Horse(), canEatHorse);
+    }
+
     @Override
-    public void eat(){
+    public void eat() {
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (island.isValidLocation(i,j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
+                if (island.isValidLocation(i, j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
                     cells[i][j].getResidents().removeIf(o -> o instanceof Herbivores);
                     return;
                 }
@@ -58,6 +69,7 @@ public class Bear extends Predators {
             y = newY;
         }
     }
+
     protected int getRandomMovement() {
         return random.nextInt(maxStepsMove) - 1;
     }

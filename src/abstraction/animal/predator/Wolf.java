@@ -8,7 +8,7 @@ import islands.Island;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Wolf extends Predators{
+public class Wolf extends Predators {
     private final double REPRODUCTION_PROBABILITY = 0.3;
     private Island island;
     private final String pictureOfAnimal = "\uD83D\uDC3A";
@@ -17,7 +17,7 @@ public class Wolf extends Predators{
     private final int maxStepsMove = 3;
     private final double kilogramsOfFoodForCompleteSaturation = 8d;
     Random random = new Random();
-    private final HashMap<Animal,Integer> animalsThatCanBeEaten = new HashMap<>();
+    private final HashMap<Animal, Integer> animalsThatCanBeEaten = new HashMap<>();
     private final int canEatRabbit = 60;
     private final int canEatGoat = 60;
     private final int canEatHorse = 10;
@@ -27,18 +27,29 @@ public class Wolf extends Predators{
     private int x;
     private int y;
     private Cell[][] cells;
-    public Wolf(){
+
+    public Wolf() {
         setPictureOfAnimal(pictureOfAnimal);
         setNameOfAnimal(nameOfAnimal);
         setMaxStepsMove(maxStepsMove);
         setKilogramsOfFoodForCompleteSaturation(kilogramsOfFoodForCompleteSaturation);
         setWeightOfAnimal(weightOfAnimal);
     }
+
+    {
+        animalsThatCanBeEaten.put(new Rabbit(), canEatRabbit);
+        animalsThatCanBeEaten.put(new Goat(), canEatGoat);
+        animalsThatCanBeEaten.put(new Horse(), canEatHorse);
+        animalsThatCanBeEaten.put(new Mouse(), canEatMouse);
+        animalsThatCanBeEaten.put(new Deer(), canEatDeer);
+        animalsThatCanBeEaten.put(new Sheep(), canEatSheep);
+    }
+
     @Override
     public void eat() {
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (island.isValidLocation(i,j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
+                if (island.isValidLocation(i, j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
                     cells[i][j].getResidents().removeIf(o -> o instanceof Herbivores);
                     return;
                 }
@@ -56,6 +67,7 @@ public class Wolf extends Predators{
             y = newY;
         }
     }
+
     protected int getRandomMovement() {
         return random.nextInt(maxStepsMove) - 1;
     }

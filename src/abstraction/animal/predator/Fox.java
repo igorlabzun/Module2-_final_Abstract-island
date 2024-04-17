@@ -17,14 +17,15 @@ public class Fox extends Predators {
     private final int maxStepsMove = 2;
     private final double kilogramsOfFoodForCompleteSaturation = 2d;
     Random random = new Random();
-    private final HashMap<Animal,Integer> animalsThatCanBeEaten = new HashMap<>();
+    private final HashMap<Animal, Integer> animalsThatCanBeEaten = new HashMap<>();
     private final int canEatRabbit = 70;
 
     private final int canEatMouse = 90;
     private int x;
     private int y;
     private Cell[][] cells;
-    public Fox(){
+
+    public Fox() {
         setPictureOfAnimal(pictureOfAnimal);
         setNameOfAnimal(nameOfAnimal);
         setMaxStepsMove(maxStepsMove);
@@ -32,11 +33,16 @@ public class Fox extends Predators {
         setWeightOfAnimal(weightOfAnimal);
     }
 
+    {
+        animalsThatCanBeEaten.put(new Rabbit(), canEatRabbit);
+        animalsThatCanBeEaten.put(new Mouse(), canEatMouse);
+    }
+
     @Override
     public void eat() {
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (island.isValidLocation(i,j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
+                if (island.isValidLocation(i, j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
                     cells[i][j].getResidents().removeIf(o -> o instanceof Herbivores);
                     return;
                 }
@@ -56,6 +62,7 @@ public class Fox extends Predators {
             y = newY;
         }
     }
+
     protected int getRandomMovement() {
         return random.nextInt(maxStepsMove) - 1;
     }

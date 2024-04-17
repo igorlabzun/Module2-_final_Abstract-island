@@ -19,25 +19,33 @@ public class Boa extends Predators {
     private final int maxStepsMove = 1;
     Random random = new Random();
     private final double kilogramsOfFoodForCompleteSaturation = 3d;
-    private final HashMap<Animal,Integer> animalsThatCanBeEaten = new HashMap<>();
+    private final HashMap<Animal, Integer> animalsThatCanBeEaten = new HashMap<>();
     private final int canEatRabbit = 20;
     private final int canEatMouse = 40;
     private final int canEatFox = 40;
     private int x;
     private int y;
     private Cell[][] cells;
-    public Boa(){
+
+    public Boa() {
         setPictureOfAnimal(pictureOfAnimal);
         setNameOfAnimal(nameOfAnimal);
         setMaxStepsMove(maxStepsMove);
         setKilogramsOfFoodForCompleteSaturation(kilogramsOfFoodForCompleteSaturation);
         setWeightOfAnimal(weightOfAnimal);
     }
+
+    {
+        animalsThatCanBeEaten.put(new Rabbit(), canEatRabbit);
+        animalsThatCanBeEaten.put(new Mouse(), canEatMouse);
+        animalsThatCanBeEaten.put(new Fox(), canEatFox);
+    }
+
     @Override
     public void eat() {
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (island.isValidLocation(i,j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
+                if (island.isValidLocation(i, j) && cells[i][j].getResidents().stream().anyMatch(o -> o instanceof Herbivores)) {
                     cells[i][j].getResidents().removeIf(o -> o instanceof Herbivores);
                     return;
                 }
@@ -55,6 +63,7 @@ public class Boa extends Predators {
             y = newY;
         }
     }
+
     protected int getRandomMovement() {
         return random.nextInt(maxStepsMove) - 1;
     }
