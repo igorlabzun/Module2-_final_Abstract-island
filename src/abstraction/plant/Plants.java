@@ -1,6 +1,8 @@
 package abstraction.plant;
 
-public abstract class Plants {
+import interfaces.Organism;
+
+public class Plants implements Organism {
 
     public void grow(){
 
