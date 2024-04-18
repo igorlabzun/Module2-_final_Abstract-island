@@ -1,8 +1,6 @@
 package islands;
 
 
-
-
 import abstraction.animal.Animal;
 import abstraction.animal.herbivore.*;
 import abstraction.animal.predator.*;
@@ -12,7 +10,6 @@ import interfaces.Organism;
 import java.util.*;
 
 
-
 public class Island implements Runnable {
     private final int width;
     private final int height;
@@ -20,8 +17,6 @@ public class Island implements Runnable {
     public final Random random;
     public final List<Organism> herbivores;
     public final List<Organism> predators;
-
-
 
 
     public Island(int width, int height) {
@@ -44,54 +39,56 @@ public class Island implements Runnable {
             }
         }
     }
-    public Organism getRandomAnimal(){
+
+    public Organism getRandomAnimal() {
         double randomOrganism = Math.random();
-        if (randomOrganism<0.3){
+        if (randomOrganism < 0.3) {
             return new Plants();
-        }else if (randomOrganism <0.75){
+        } else if (randomOrganism < 0.75) {
             return getRandomHerbivores();
-        }else {
+        } else {
             return getRandomPredators();
         }
 
     }
 
-    public  Herbivores getRandomHerbivores(){
+    public Herbivores getRandomHerbivores() {
         double itValue = Math.random();
-        if (itValue < 0.1){
+        if (itValue < 0.1) {
             return new Rabbit();
         } else if (itValue < 0.2) {
             return new Buffalo();
-        }else if (itValue < 0.3) {
+        } else if (itValue < 0.3) {
             return new Sheep();
-        }else if (itValue < 0.4) {
+        } else if (itValue < 0.4) {
             return new Goat();
-        }else if (itValue < 0.5) {
+        } else if (itValue < 0.5) {
             return new Boar();
-        }else if (itValue < 0.6) {
+        } else if (itValue < 0.6) {
             return new Duck();
-        }else if (itValue < 0.7) {
+        } else if (itValue < 0.7) {
             return new Caterpillar();
-        }else if (itValue < 0.8) {
+        } else if (itValue < 0.8) {
             return new Mouse();
 
-        }else if (itValue < 0.9) {
+        } else if (itValue < 0.9) {
             return new Deer();
-        }else {
-        return new Horse();
+        } else {
+            return new Horse();
         }
     }
-    public  Predators getRandomPredators(){
+
+    public Predators getRandomPredators() {
         double randomValue = Math.random();
-        if (randomValue < 0.2){
+        if (randomValue < 0.2) {
             return new Bear();
         } else if (randomValue < 0.4) {
             return new Boa();
-        }else if (randomValue < 0.6) {
+        } else if (randomValue < 0.6) {
             return new Fox();
-        }else if (randomValue < 0.8) {
-            return new Wolf();}
-         else {
+        } else if (randomValue < 0.8) {
+            return new Wolf();
+        } else {
             return new Eagle();
         }
     }
@@ -104,6 +101,7 @@ public class Island implements Runnable {
             cells[newX][newY].addAnimal(animal);
         }
     }
+
     public synchronized void simulateDay() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -111,10 +109,10 @@ public class Island implements Runnable {
                 synchronized (cells[i][j]) {
                     residents = new HashSet<>(cells[i][j].getResidents());
                 }
-                for(Organism organism : residents){
-                    if(organism instanceof Animal){
+                for (Organism organism : residents) {
+                    if (organism instanceof Animal) {
                         residents.add(organism);
-                    }else if(organism instanceof Plants){
+                    } else if (organism instanceof Plants) {
                         residents.add(new Plants());
                     }
                 }
@@ -126,8 +124,6 @@ public class Island implements Runnable {
         printStatistics();
 
     }
-
-
 
 
     public void printStatistics() {
@@ -160,6 +156,9 @@ public class Island implements Runnable {
                 Cell cell = cells[i][j];
                 String symbol = String.valueOf(getSymbolForCell(cell));
                 System.out.print(symbol + " ");
+                if (j < height - 1) {
+                    System.out.print('|');
+                }
 
             }
             System.out.println();
@@ -187,6 +186,8 @@ public class Island implements Runnable {
                 return ((Boar) organism).getPictureOfAnimal();
             } else if (organism instanceof Sheep) {
                 return ((Sheep) organism).getPictureOfAnimal();
+            } else if (organism instanceof Caterpillar) {
+                return ((Caterpillar) organism).getPictureOfAnimal();
             } else if (organism instanceof Wolf) {
                 return ((Wolf) organism).getPictureOfAnimal();
             } else if (organism instanceof Bear) {
@@ -197,14 +198,12 @@ public class Island implements Runnable {
                 return ((Boa) organism).getPictureOfAnimal();
             } else if (organism instanceof Eagle) {
                 return ((Eagle) organism).getPictureOfAnimal();
-            }
-            else if ( organism instanceof Plants) {
+            } else if (organism instanceof Plants) {
                 return "\uD83C\uDF3F";
             }
         }
         return " ";
     }
-
 
 
     public boolean isValidLocation(int x, int y) {
